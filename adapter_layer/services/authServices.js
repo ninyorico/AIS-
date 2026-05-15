@@ -7,3 +7,10 @@ if(studentProfile.firstName === ''){
 }
 return await AuthAdapter.create(studentProfile)
 }
+
+export const getStudentProfile = async (studentId) => {
+    if (!studentId) {
+        throw new Error('Student ID is required');
+    }
+    return await authAdapter.findById(studentId);
+};

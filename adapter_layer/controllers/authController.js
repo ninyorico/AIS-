@@ -1,4 +1,5 @@
 import * as AuthService from "../services/authServices.js";
+import * as authAdapters from "../adapters/authAdapters.js";
 export const registerStudent = async (req, res) => {
     const {firstName, lastName, dob, course, major, address, status} = req.body;
     try{
@@ -17,3 +18,22 @@ export const registerStudent = async (req, res) => {
         });
     }
 }
+
+export const getStudentProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const studentProfile = await authAdapters.findById(id);
+
+    res.status(200).json({
+      success: true,
+      studentProfile
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};

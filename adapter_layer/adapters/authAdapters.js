@@ -18,3 +18,29 @@ export const create = async (profile) => {
         });
         return await response.json();
 }
+
+export const findById = async (studentId) => {
+  const cleanId = String(studentId).trim();
+
+  console.log("Student ID received by adapter:", cleanId);
+
+  const response = await fetch(`https://ais-simulated-legacy.onrender.com/api/students/${studentId}`);
+
+  const text = await response.text();
+  console.log("Legacy raw response:", text);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch student: ${response.status}`);
+  }
+
+  const data = JSON.parse(text);
+
+  return {
+    id: data._id,
+    name: data.name,
+    birthdate: data.birthdate,
+    program: data.program,
+    address: data.address,
+    studentStatus: data.studentStatus
+  };
+}
